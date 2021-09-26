@@ -16,17 +16,38 @@ const Next = ({ setSelected, anecdotesCount }) => {
   };
   return <button onClick={handleClick}>next anecdote</button>;
 };
+
 const Vote = ({ selected, votes, setVotes }) => {
   const handleClick = () => {
     let newVotes;
     if (votes[selected]) {
-      newVotes = { ...votes, [selected]: votes[selected] + 1 };
+      newVotes = {
+        ...votes,
+        [selected]: { votes: votes[selected]["votes"] + 1, id: selected },
+      };
     } else {
-      newVotes = { ...votes, [selected]: 1 };
+      newVotes = { ...votes, [selected]: { votes: 1, id: selected } };
     }
     setVotes(newVotes);
   };
   return <button onClick={handleClick}>vote</button>;
+};
+
+const MostVotes = ({ votes }) => {
+  const getMostVoted = () => {
+    const id = Object.values(votes).sort((a, b) => b.votes - a.votes)[0].id;
+    return anecdotes[id];
+  };
+  return (
+    <>
+      <h2>Most voted anecdote</h2>
+      {Object.keys(votes).length !== 0 ? (
+        <p>{getMostVoted()}</p>
+      ) : (
+        <p>No votes</p>
+      )}
+    </>
+  );
 };
 
 const App = (props) => {
@@ -38,11 +59,13 @@ const App = (props) => {
       <p>{props.anecdotes[selected]}</p>
       {votes[selected] && (
         <p>
-          Has {votes[selected]} {votes[selected] > 1 ? "Votes" : "vote"}
+          Has {votes[selected]["votes"]}
+          {votes[selected]["votes"] > 1 ? " votes" : " vote"}
         </p>
       )}
       <Vote selected={selected} setVotes={setVotes} votes={votes} />
       <Next setSelected={setSelected} anecdotesCount={props.anecdotes.length} />
+      <MostVotes votes={votes} anecdotes={props.anecdotes} />
     </>
   );
 };
