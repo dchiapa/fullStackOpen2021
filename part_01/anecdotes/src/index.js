@@ -16,13 +16,32 @@ const Next = ({ setSelected, anecdotesCount }) => {
   };
   return <button onClick={handleClick}>next anecdote</button>;
 };
+const Vote = ({ selected, votes, setVotes }) => {
+  const handleClick = () => {
+    let newVotes;
+    if (votes[selected]) {
+      newVotes = { ...votes, [selected]: votes[selected] + 1 };
+    } else {
+      newVotes = { ...votes, [selected]: 1 };
+    }
+    setVotes(newVotes);
+  };
+  return <button onClick={handleClick}>vote</button>;
+};
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState({});
 
   return (
     <>
       <p>{props.anecdotes[selected]}</p>
+      {votes[selected] && (
+        <p>
+          Has {votes[selected]} {votes[selected] > 1 ? "Votes" : "vote"}
+        </p>
+      )}
+      <Vote selected={selected} setVotes={setVotes} votes={votes} />
       <Next setSelected={setSelected} anecdotesCount={props.anecdotes.length} />
     </>
   );
