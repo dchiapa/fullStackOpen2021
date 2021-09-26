@@ -10,18 +10,26 @@ const Feedback = ({ good, neutral, bad }) => {
   const positive = (good / total) * 100;
   return (
     <>
-      <p>
-        <strong>Feedback:</strong>
-      </p>
-      <p>
-        <strong>Total:</strong> {total}
-      </p>
-      <p>
-        <strong>Average:</strong> {average}
-      </p>
-      <p>
-        <strong>Positive:</strong> {positive} %
-      </p>
+      {total > 0 ? (
+        <>
+          <p>
+            <strong>Feedback:</strong>
+          </p>
+          <p>
+            <strong>Total:</strong> {total}
+          </p>
+          <p>
+            <strong>Average:</strong> {average}
+          </p>
+          <p>
+            <strong>Positive:</strong> {positive} %
+          </p>
+        </>
+      ) : (
+        <p>
+          <strong>No feedback given</strong>
+        </p>
+      )}
     </>
   );
 };
