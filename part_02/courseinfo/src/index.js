@@ -2,11 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Header = ({ name }) => <h1>{name}</h1>;
-const Part = ({ key, part }) => (
-  <li key={key}>
+
+const Part = ({ part }) => (
+  <li>
     {part.name}: {part.exercises}
   </li>
 );
+
 const Content = ({ parts }) => {
   return (
     <ul>
