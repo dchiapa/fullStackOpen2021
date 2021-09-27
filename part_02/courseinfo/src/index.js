@@ -18,12 +18,18 @@ const Content = ({ parts }) => {
     </ul>
   );
 };
-
+const Total = ({ parts }) => (
+  <p>
+    Total of exercises:{" "}
+    {parts[0].exercises + parts[1].exercises + parts[2].exercises}
+  </p>
+);
 const Course = ({ name, parts }) => {
   return (
     <>
       <Header name={name} />
       <Content parts={parts} />
+      <Total parts={parts} />
     </>
   );
 };
