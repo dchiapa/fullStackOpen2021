@@ -11,8 +11,12 @@ export const AddContact = ({ newName, setNewName, persons, setPersons }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newName !== "") {
-      setPersons([...persons, { name: newName }]);
-      setNewName("");
+      if (persons.find(findPerson)) {
+        alert(`${newName} is already added to phonebook`);
+      } else {
+        setPersons([...persons, { name: newName }]);
+        setNewName("");
+      }
     }
   };
   return (
