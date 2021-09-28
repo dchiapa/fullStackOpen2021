@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Contact = ({ person }) => {
+export const Contact = ({ contact }) => {
   return (
     <li>
-      {person.name}: {person.phone}
+      {contact.name}: {contact.phone}
     </li>
   );
 };

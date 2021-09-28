@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Contacts } from "./components/Contacts";
 import { AddContact } from "./components/AddContact";
 import { SearchContact } from "./components/SearchContact";
 
+const URL = "http://localhost:3001/contacts";
+
 export const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", phone: "040-123456" },
-    { name: "Ada Lovelace", phone: "39-44-5323523" },
-    { name: "Dan Abramov", phone: "12-43-234345" },
-    { name: "Mary Poppendieck", phone: "39-23-6423122" },
-  ]);
+  useEffect(() => {
+    axios.get(URL).then((response) => {
+      setContacts(response.data);
+    });
+  }, []);
+
+  const [contacts, setContacts] = useState([]);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
+
   //* events controlers to AddContact
   const handleName = (e) => {
     e.preventDefault();
@@ -22,41 +27,44 @@ export const App = () => {
     e.preventDefault();
     setNewPhone(e.target.value);
   };
-  const findPersonName = (person) => {
-    return person.name === newName;
+  const findContactName = (contact) => {
+    return contact.name === newName;
   };
-  const findPersonPhone = (person) => {
-    return person.phone === newPhone;
+  const findContactPhone = (contact) => {
+    return contact.phone === newPhone;
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newName !== "" && newPhone !== "") {
-      if (persons.find(findPersonName)) {
+      if (contacts.find(findContactName)) {
         alert(`${newName} is already added to phonebook`);
-      } else if (persons.find(findPersonPhone)) {
+      } else if (contacts.find(findContactPhone)) {
         alert(`${newPhone} is already added to phonebook`);
       } else {
-        setPersons([...persons, { name: newName, phone: newPhone }]);
+        setContacts([...contacts, { name: newName, phone: newPhone }]);
         setNewName("");
         setNewPhone("");
       }
     }
   };
+
   //* events controlers to Contacts
-  const filterPersons = () => {
-    let filteredPersons = persons;
+  const filterContacts = () => {
+    let filteredContacts = contacts;
     if (filter !== "") {
-      filteredPersons = persons.filter(
+      filteredContacts = contacts.filter(
         (person) => person.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
       );
     }
-    return filteredPersons;
+    return filteredContacts;
   };
+
   //* events controlers to SearchContact
   const handleNameSearch = (e) => {
     e.preventDefault();
     setFilter(e.target.value);
   };
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -70,7 +78,7 @@ export const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Contacts filterPersons={filterPersons} />
+      <Contacts filterContacts={filterContacts} />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import { Contact } from "./Contact";
-export const Contacts = ({ filterPersons }) => {
-  const filteredPersons = filterPersons();
+export const Contacts = ({ filterContacts }) => {
+  const filteredContacts = filterContacts();
   return (
     <ul>
-      {filteredPersons.map((person) => (
-        <Contact key={person.name} person={person} />
+      {filteredContacts.map((contact) => (
+        <Contact key={contact.name} contact={contact} />
       ))}
     </ul>
   );
