@@ -16,18 +16,18 @@ export const AddContact = ({
     e.preventDefault();
     setNewPhone(e.target.value);
   };
-  const findName = (person) => {
+  const findPersonName = (person) => {
     return person.name === newName;
   };
-  const findPhone = (person) => {
+  const findPersonPhone = (person) => {
     return person.phone === newPhone;
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newName !== "" && newPhone !== "") {
-      if (persons.find(findName)) {
+      if (persons.find(findPersonName)) {
         alert(`${newName} is already added to phonebook`);
-      } else if (persons.find(findPhone)) {
+      } else if (persons.find(findPersonPhone)) {
         alert(`${newPhone} is already added to phonebook`);
       } else {
         setPersons([...persons, { name: newName, phone: newPhone }]);
