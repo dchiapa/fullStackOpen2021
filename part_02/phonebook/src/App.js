@@ -3,8 +3,11 @@ import { Contacts } from "./components/Contacts";
 import { AddContact } from "./components/AddContact";
 
 export const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", phone: "123456789" },
+  ]);
   const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
 
   return (
     <div>
@@ -12,6 +15,8 @@ export const App = () => {
       <AddContact
         newName={newName}
         setNewName={setNewName}
+        newPhone={newPhone}
+        setNewPhone={setNewPhone}
         persons={persons}
         setPersons={setPersons}
       />
