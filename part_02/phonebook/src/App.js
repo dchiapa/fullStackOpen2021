@@ -13,22 +13,64 @@ export const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
-
+  //* events controlers to AddContact
+  const handleName = (e) => {
+    e.preventDefault();
+    setNewName(e.target.value);
+  };
+  const handlePhone = (e) => {
+    e.preventDefault();
+    setNewPhone(e.target.value);
+  };
+  const findPersonName = (person) => {
+    return person.name === newName;
+  };
+  const findPersonPhone = (person) => {
+    return person.phone === newPhone;
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newName !== "" && newPhone !== "") {
+      if (persons.find(findPersonName)) {
+        alert(`${newName} is already added to phonebook`);
+      } else if (persons.find(findPersonPhone)) {
+        alert(`${newPhone} is already added to phonebook`);
+      } else {
+        setPersons([...persons, { name: newName, phone: newPhone }]);
+        setNewName("");
+        setNewPhone("");
+      }
+    }
+  };
+  //* events controlers to Contacts
+  const filterPersons = () => {
+    let filteredPersons = persons;
+    if (filter !== "") {
+      filteredPersons = persons.filter(
+        (person) => person.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
+      );
+    }
+    return filteredPersons;
+  };
+  //* events controlers to SearchContact
+  const handleNameSearch = (e) => {
+    e.preventDefault();
+    setFilter(e.target.value);
+  };
   return (
     <div>
       <h1>Phonebook</h1>
-      <SearchContact filter={filter} setFilter={setFilter} />
+      <SearchContact filter={filter} handleNameSearch={handleNameSearch} />
       <h2>Add Contact</h2>
       <AddContact
         newName={newName}
-        setNewName={setNewName}
         newPhone={newPhone}
-        setNewPhone={setNewPhone}
-        persons={persons}
-        setPersons={setPersons}
+        handleName={handleName}
+        handlePhone={handlePhone}
+        handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Contacts persons={persons} filter={filter} />
+      <Contacts filterPersons={filterPersons} />
     </div>
   );
 };
