@@ -6,9 +6,8 @@ import { CountryList } from "./components/CountryList";
 
 function App() {
   const COUNTRIES_LIST_URL = "https://restcountries.com/v3.1/all";
-  const YOUR_ACCESS_KEY = "adeaf87e7e28e40cfd63fff3a79eed2b";
-  /*   http://api.weatherstack.com/current?access_key=adeaf87e7e28e40cfd63fff3a79eed2b&query=New%20York
-   */ const WEATHER_API_URL = `http://api.weatherstack.com/current?access_key=${YOUR_ACCESS_KEY}`;
+  const ACCESS_KEY = "adeaf87e7e28e40cfd63fff3a79eed2b";
+  const WEATHER_API_URL = `http://api.weatherstack.com/current?access_key=${ACCESS_KEY}`;
 
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState(countries);
@@ -34,9 +33,7 @@ function App() {
   // get weather data from API
   useEffect(() => {
     async function getWeatherData() {
-      const response = await axios.get(
-        `http://api.weatherstack.com/current?access_key=${YOUR_ACCESS_KEY}&query=New%20York`
-      );
+      const response = await axios.get(`${WEATHER_API_URL}&query=New%20York`);
       console.log(response);
     }
     getWeatherData();
