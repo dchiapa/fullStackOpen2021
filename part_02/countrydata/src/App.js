@@ -31,7 +31,10 @@ function App() {
     <main>
       <h1>Country Data</h1>
       <CountryFilter filter={filter} setFilter={setFilter} />
-      <CountryList filteredCountries={filteredCountries} />
+      <CountryList
+        filteredCountries={filteredCountries}
+        setFilter={setFilter}
+      />
     </main>
   );
 }

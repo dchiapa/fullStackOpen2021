@@ -1,6 +1,9 @@
 import React from "react";
 
-export const CountryList = ({ filteredCountries }) => {
+export const CountryList = ({ filteredCountries, setFilter }) => {
+  const handleCountryShow = (e) => {
+    setFilter(e.target.name);
+  };
   return (
     <section>
       {filteredCountries.length === 1 ? (
@@ -18,11 +21,19 @@ export const CountryList = ({ filteredCountries }) => {
         </>
       ) : filteredCountries.length <= 10 ? (
         <>
-          <h2>Counties List</h2>
+          <h2>Countries List</h2>
           <ul>
             {filteredCountries.map((country) => {
               return (
-                <li key={country.name.official}>{country.name.official}</li>
+                <li key={country.name.official}>
+                  {country.name.official}
+                  <button
+                    onClick={handleCountryShow}
+                    name={country.name.official}
+                  >
+                    Show
+                  </button>
+                </li>
               );
             })}
           </ul>
