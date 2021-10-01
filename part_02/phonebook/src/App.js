@@ -41,9 +41,11 @@ export const App = () => {
       } else if (contacts.find(findContactPhone)) {
         alert(`${newPhone} is already added to phonebook`);
       } else {
-        setContacts([...contacts, { name: newName, phone: newPhone }]);
-        setNewName("");
-        setNewPhone("");
+        axios.post(URL, { name: newName, phone: newPhone }).then((response) => {
+          setContacts(contacts.concat(response.data));
+          setNewName("");
+          setNewPhone("");
+        });
       }
     }
   };
