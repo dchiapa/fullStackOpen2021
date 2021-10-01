@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
+import { getAllContacts, createContact } from "./services/bd.js";
 import { Contacts } from "./components/Contacts";
 import { AddContact } from "./components/AddContact";
 import { SearchContact } from "./components/SearchContact";
 
-const URL = "http://localhost:3001/contacts";
-
 export const App = () => {
   useEffect(() => {
-    axios.get(URL).then((response) => {
+    getAllContacts().then((response) => {
       setContacts(response.data);
     });
   }, []);
@@ -41,7 +40,7 @@ export const App = () => {
       } else if (contacts.find(findContactPhone)) {
         alert(`${newPhone} is already added to phonebook`);
       } else {
-        axios.post(URL, { name: newName, phone: newPhone }).then((response) => {
+        createContact({ name: newName, phone: newPhone }).then((response) => {
           setContacts(contacts.concat(response.data));
           setNewName("");
           setNewPhone("");
