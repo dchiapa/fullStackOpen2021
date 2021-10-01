@@ -7,9 +7,7 @@ import { SearchContact } from "./components/SearchContact";
 
 export const App = () => {
   useEffect(() => {
-    getAllContacts().then((response) => {
-      setContacts(response.data);
-    });
+    getAllContacts().then((response) => setContacts(response));
   }, []);
 
   const [contacts, setContacts] = useState([]);
@@ -41,7 +39,7 @@ export const App = () => {
         alert(`${newPhone} is already added to phonebook`);
       } else {
         createContact({ name: newName, phone: newPhone }).then((response) => {
-          setContacts(contacts.concat(response.data));
+          setContacts(contacts.concat(response));
           setNewName("");
           setNewPhone("");
         });
