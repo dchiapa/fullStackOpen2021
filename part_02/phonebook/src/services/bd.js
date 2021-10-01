@@ -11,3 +11,8 @@ export const createContact = (newContact) => {
   const request = axios.get(URL, newContact);
   return request.then((response) => response.data);
 };
+
+export const deleteContact = (id) => {
+  const request = axios.delete(`${URL}/${id}`);
+  return request.then((response) => response.data);
+};

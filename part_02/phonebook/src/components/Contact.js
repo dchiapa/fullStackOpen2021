@@ -1,9 +1,12 @@
 import React from "react";
 
-export const Contact = ({ contact }) => {
+import { Button } from "./Button";
+
+export const Contact = ({ contact, handleDelete }) => {
   return (
     <li>
       {contact.name}: {contact.phone}
+      <Button id={contact.id} handleDelete={handleDelete} />
     </li>
   );
 };

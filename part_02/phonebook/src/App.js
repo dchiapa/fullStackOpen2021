@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getAllContacts, createContact } from "./services/bd.js";
+import { getAllContacts, createContact, deleteContact } from "./services/bd.js";
 import { Contacts } from "./components/Contacts";
 import { AddContact } from "./components/AddContact";
 import { SearchContact } from "./components/SearchContact";
@@ -57,7 +57,12 @@ export const App = () => {
     }
     return filteredContacts;
   };
-
+  const handleDelete = (e) => {
+    window.confirm("Are you sure you want to delete this contact?") &&
+      deleteContact(e.target.id).then(() => {
+        setContacts(contacts.filter((contact) => contact.id != e.target.id));
+      });
+  };
   //* events controlers to SearchContact
   const handleNameSearch = (e) => {
     e.preventDefault();
@@ -77,7 +82,7 @@ export const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Contacts filterContacts={filterContacts} />
+      <Contacts filterContacts={filterContacts} handleDelete={handleDelete} />
     </div>
   );
 };
