@@ -8,7 +8,12 @@ export const getAllContacts = () => {
 };
 
 export const createContact = (newContact) => {
-  const request = axios.get(URL, newContact);
+  const request = axios.post(URL, newContact);
+  return request.then((response) => response.data);
+};
+
+export const updateContact = (id, updatedContact) => {
+  const request = axios.put(`${URL}/${id}`, updatedContact);
   return request.then((response) => response.data);
 };
 

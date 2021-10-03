@@ -5,10 +5,10 @@ export const AddContact = ({
   newPhone,
   handleName,
   handlePhone,
-  handleSubmit,
+  handleAdd,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleAdd}>
       <div>
         name: <input value={newName} onChange={handleName} required />
       </div>
