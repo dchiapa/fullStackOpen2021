@@ -23,6 +23,7 @@ export const App = () => {
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
   const [message, setMessage] = useState(null);
+  const [errorState, setErrorState] = useState(false);
 
   //* events controlers to AddContact
 
@@ -33,26 +34,36 @@ export const App = () => {
       const id = findIdContact();
       if (id !== undefined) {
         window.confirm("Contact already exists, replace number?") &&
-          updateContact(id, { name: newName, phone: newPhone }).then(
-            (response) => {
+          updateContact(id, { name: newName, phone: newPhone })
+            .then((response) => {
               setContacts(
                 contacts
                   .filter((contact) => contact.id !== id)
                   .concat(response)
                   .sort((a, b) => a.name.localeCompare(b.name))
               );
+              setErrorState(false);
               handleMessage("Contact updated");
-            }
-          );
+            })
+            .catch(() => {
+              setErrorState(true);
+              handleMessage("Error trying to update");
+            });
       } else {
-        createContact({ name: newName, phone: newPhone }).then((response) => {
-          setContacts(
-            contacts
-              .concat(response)
-              .sort((a, b) => a.name.localeCompare(b.name))
-          );
-          handleMessage("New contact added");
-        });
+        createContact({ name: newName, phone: newPhone })
+          .then((response) => {
+            setContacts(
+              contacts
+                .concat(response)
+                .sort((a, b) => a.name.localeCompare(b.name))
+            );
+            setErrorState(false);
+            handleMessage("New contact added");
+          })
+          .catch(() => {
+            setErrorState(true);
+            handleMessage("Error trying to add");
+          });
       }
       setNewName("");
       setNewPhone("");
@@ -71,13 +82,20 @@ export const App = () => {
   };
   const handleDelete = (e) => {
     window.confirm("Are you sure you want to delete this contact?") &&
-      deleteContact(e.target.id).then(() => {
-        setContacts(
-          contacts.filter(
-            (contact) => parseInt(contact.id) !== parseInt(e.target.id)
-          )
-        );
-      });
+      deleteContact(e.target.id)
+        .then(() => {
+          setContacts(
+            contacts.filter(
+              (contact) => parseInt(contact.id) !== parseInt(e.target.id)
+            )
+          );
+          setErrorState(false);
+          handleMessage("Contact deleted");
+        })
+        .catch(() => {
+          setErrorState(true);
+          handleMessage("Error trying to delete");
+        });
   };
   const findIdContact = () => {
     if (
@@ -117,7 +135,7 @@ export const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={message} />
+      <Notification message={message} errorState={errorState} />
       <SearchContact filter={filter} handleNameSearch={handleSearch} />
       <h2>Add Contact</h2>
       <AddContact
