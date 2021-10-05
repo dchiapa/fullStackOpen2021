@@ -9,6 +9,7 @@ import {
 import { Contacts } from "./components/Contacts";
 import { AddContact } from "./components/AddContact";
 import { SearchContact } from "./components/SearchContact";
+import { Notification } from "./components/Notification.js";
 
 export const App = () => {
   useEffect(() => {
@@ -21,11 +22,13 @@ export const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
+  const [message, setMessage] = useState(null);
 
   //* events controlers to AddContact
 
   const handleAdd = (e) => {
     e.preventDefault();
+
     if (newName !== "" && newPhone !== "") {
       const id = findIdContact();
       if (id !== undefined) {
@@ -38,6 +41,7 @@ export const App = () => {
                   .concat(response)
                   .sort((a, b) => a.name.localeCompare(b.name))
               );
+              handleMessage("Contact updated");
             }
           );
       } else {
@@ -47,6 +51,7 @@ export const App = () => {
               .concat(response)
               .sort((a, b) => a.name.localeCompare(b.name))
           );
+          handleMessage("New contact added");
         });
       }
       setNewName("");
@@ -101,9 +106,18 @@ export const App = () => {
     setNewPhone(e.target.value);
   };
 
+  //* message controler
+  const handleMessage = (message) => {
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={message} />
       <SearchContact filter={filter} handleNameSearch={handleSearch} />
       <h2>Add Contact</h2>
       <AddContact
