@@ -34,6 +34,13 @@ app.get("/", (request, response) => {
   response.send("<h1>Phonebook</h1>");
 });
 
+app.get("/info", (request, response) => {
+  response.send(
+    `<p>Phonebook has info for ${contacts.length} people</p>
+    <p>${new Date()}</p>`
+  );
+});
+
 app.get("/api/contacts", (request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
   response.end(JSON.stringify(contacts));
