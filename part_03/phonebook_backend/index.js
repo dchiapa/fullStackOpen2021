@@ -71,6 +71,22 @@ app.delete("/api/contacts/:id", (request, response) => {
   }
 });
 
+app.post("/api/contacts", (request, response) => {
+  const maxId =
+    contacts.length > 0
+      ? Math.max(...contacts.map((contact) => contact.id))
+      : 0;
+  const body = request.body;
+  const contact = {
+    name: body.name,
+    phone: body.phone,
+    id: Math.floor(Math.random() * (2000 - maxId) + maxId),
+  };
+  contacts = contacts.concat(contact);
+  response.writeHead(201, { "Content-Type": "application/json" });
+  response.end(JSON.stringify(contact));
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
