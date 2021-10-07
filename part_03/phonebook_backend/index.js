@@ -77,14 +77,24 @@ app.post("/api/contacts", (request, response) => {
       ? Math.max(...contacts.map((contact) => contact.id))
       : 0;
   const body = request.body;
-  const contact = {
-    name: body.name,
-    phone: body.phone,
-    id: Math.floor(Math.random() * (2000 - maxId) + maxId),
-  };
-  contacts = contacts.concat(contact);
-  response.writeHead(201, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(contact));
+  if (!body.name || !body.phone) {
+    response.writeHead(400, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ error: "name or phone missing" }));
+  } else {
+    if (contacts.find((contact) => contact.name === body.name)) {
+      response.writeHead(400, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ error: "name already exists" }));
+    } else {
+      const contact = {
+        name: body.name,
+        phone: body.phone,
+        id: Math.floor(Math.random() * (2000 - maxId) + maxId),
+      };
+      contacts = contacts.concat(contact);
+      response.writeHead(201, { "Content-Type": "application/json" });
+      response.end(JSON.stringify(contact));
+    }
+  }
 });
 
 const PORT = 3001;
