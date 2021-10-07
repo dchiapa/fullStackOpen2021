@@ -46,6 +46,18 @@ app.get("/api/contacts", (request, response) => {
   response.end(JSON.stringify(contacts));
 });
 
+app.get("/api/contacts/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const contact = contacts.find((contact) => contact.id === id);
+  if (contact) {
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify(contact));
+  } else {
+    response.writeHead(404, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ error: "Contact not found" }));
+  }
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
